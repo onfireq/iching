@@ -614,3 +614,150 @@ html[data-theme="light"] .footer-motto { color: #8a5a20; }
   .video-grid { grid-template-columns: 1fr; }
   .video-meta { flex-direction: column; align-items: flex-start; }
 }
+
+/* ============ 视频研习页（卡片进站内研习） ============ */
+.vc-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.vc-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .6rem;
+  padding: .55rem 1.1rem .85rem;
+  border-top: 1px dashed var(--glass-border);
+}
+.vc-wen {
+  color: var(--text-dim);
+  font-size: .82rem;
+  letter-spacing: .02em;
+}
+.vc-wen.dim { opacity: .55; }
+.btn-mini {
+  padding: .3rem .75rem;
+  font-size: .82rem;
+  white-space: nowrap;
+}
+
+/* 研习详情页 */
+.vd-topbar {
+  display: flex;
+  gap: .6rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.4rem;
+}
+.vd-player {
+  aspect-ratio: 16 / 9;
+  padding: .45rem;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.vd-player iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 12px;
+  display: block;
+  background: #000;
+}
+.vd-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+.vd-meta h3 { margin: 0 0 .3rem; font-size: 1.05rem; letter-spacing: .02em; }
+.vd-meta p { margin: 0; color: var(--text-dim); font-size: .85rem; }
+.vd-transcript {
+  margin-top: 1rem;
+  padding: 1.5rem 1.7rem 1.3rem;
+}
+.vt-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-bottom: 1.1rem;
+  padding-bottom: .8rem;
+  border-bottom: 1px solid var(--glass-border);
+}
+.vt-head h3 { margin: 0; font-size: 1.05rem; letter-spacing: .03em; }
+.vt-chars { color: var(--text-dim); font-size: .8rem; }
+.vt-body p {
+  margin: 0 0 .9em;
+  line-height: 1.95;
+  font-size: .97rem;
+  text-align: justify;
+}
+.vt-body p:last-child { margin-bottom: 0; }
+.vt-note {
+  margin: 1.3rem 0 0;
+  color: var(--text-dim);
+  font-size: .8rem;
+  border-top: 1px dashed var(--glass-border);
+  padding-top: .9rem;
+}
+.vd-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.2rem;
+}
+.vd-missing {
+  margin-top: 1rem;
+  padding: 1.2rem 1.5rem;
+  color: var(--text-dim);
+  font-size: .92rem;
+  line-height: 1.8;
+}
+
+/* ============ 道德经研习页 ============ */
+.ddj-chapters {
+  display: flex;
+  align-items: center;
+  gap: .38rem;
+  overflow-x: auto;
+  padding: .55rem .2rem 1rem;
+  margin-bottom: .6rem;
+  scrollbar-width: thin;
+}
+.ddj-bar-label {
+  flex: 0 0 auto;
+  color: var(--gold);
+  font-size: .85rem;
+  letter-spacing: .15em;
+  margin-right: .2rem;
+}
+.ddj-ch {
+  flex: 0 0 auto;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  background: var(--card-bg);
+  color: var(--text-dim);
+  font-size: .83rem;
+  cursor: pointer;
+  transition: all .18s ease;
+  font-variant-numeric: tabular-nums;
+}
+.ddj-ch:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-2px);
+}
+.ddj-seal-wrap {
+  background: radial-gradient(circle at 35% 30%, rgba(201,164,92,.22), rgba(0,0,0,.45));
+}
+.ddj-seal {
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: var(--gold);
+  text-shadow: 0 0 22px rgba(201, 164, 92, .45);
+  letter-spacing: .1em;
+}

@@ -1042,18 +1042,17 @@ function renderGlossary() {
 /* ---------- 白话讲易 · B站视频 ---------- */
 function renderVideos() {
   const total = BILI_VIDEOS.length;
-  const covered = BILI_VIDEOS.filter((v) => v.no).length;
   return `
   <div class="page video-page">
     <div class="section-head reveal">
       <h2>白话讲易 <span class="text-gradient">· 视频研习</span></h2>
-      <p>推荐 B 站系列《${esc(BILI_SEASON)}》——用通俗易懂的大白话逐卦讲解《易经》，与本站文字研习互为补充。</p>
+      <p>推荐 B 站系列《${esc(BILI_SEASON)}》——用通俗易懂的大白话逐卦讲解《易经》，与本站文字研习互为补充。点击卡片进入研习页：视频与讲解文稿对照阅读。</p>
     </div>
 
     <div class="glass video-meta reveal">
       <div class="vm-info">
         <h3>${esc(BILI_SEASON)}</h3>
-        <p>已收录 ${total} 期 · 覆盖第 1–${covered} 卦（持续更新中）。点击任意卡片直达对应视频，建议与「六十四卦」页面对照研读。</p>
+        <p>已收录 ${total} 期 · 覆盖第 1–38 卦。每期含视频 + AI 字幕转写文稿，建议与「六十四卦」页面对照研读。</p>
       </div>
       <a class="btn btn-ghost" href="${BILI_SEASON_URL}" target="_blank" rel="noopener">在 B 站打开合集 ↗</a>
     </div>
@@ -1072,26 +1071,217 @@ function videoCard(v) {
     : `<i class="yang"></i><i class="yin"></i><i class="yang"></i><i class="yin"></i><i class="yang"></i><i class="yin"></i>`;
   const url = `https://www.bilibili.com/video/${v.bvid}`;
   const date = v.pub ? new Date(v.pub * 1000).toLocaleDateString("zh-CN") : "";
+  const tr = YI_TRANSCRIPTS[v.no];
   return `
-  <a class="glass video-card reveal" href="${url}" target="_blank" rel="noopener">
-    <div class="vc-media">
-      <div class="vc-yao" aria-hidden="true">${yao}</div>
-      <img src="${v.pic}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'" />
-      <span class="vc-no">${v.no ? `第${v.no}卦 · ${esc(v.name)}` : "研习视频"}</span>
-      <span class="vc-dur">${v.dur}</span>
-    </div>
-    <div class="vc-body">
-      <h4 class="vc-title">${esc(v.title)}</h4>
-      <div class="vc-meta">
-        <span class="vm-play">▶ ${v.view}</span>
-        ${date ? `<span>${date}</span>` : ""}
+  <div class="glass video-card reveal">
+    <a class="vc-link" href="#/videos/${v.no}" aria-label="进入第${v.no}卦研习页">
+      <div class="vc-media">
+        <div class="vc-yao" aria-hidden="true">${yao}</div>
+        <img src="${v.pic}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'" />
+        <span class="vc-no">第${v.no}卦 · ${esc(v.name)}</span>
+        <span class="vc-dur">${v.dur}</span>
       </div>
+      <div class="vc-body">
+        <h4 class="vc-title">${esc(v.title)}</h4>
+        <div class="vc-meta">
+          <span class="vm-play">▶ ${v.view}</span>
+          ${date ? `<span>${date}</span>` : ""}
+        </div>
+      </div>
+    </a>
+    ${tr ? `
+    <div class="vc-foot">
+      <span class="vc-wen">📄 ${tr.chars} 字文稿</span>
+      <a class="btn btn-mini" href="#/videos/${v.no}">阅读文稿 →</a>
+    </div>` : ""}
+  </div>`;
+}
+
+/* 易经单期研习页：播放器 + 文稿 */
+function renderVideoDetail(no) {
+  const v = BILI_VIDEOS.find((x) => x.no === Number(no));
+  if (!v) return renderVideos();
+  const tr = YI_TRANSCRIPTS[v.no];
+  const prev = BILI_VIDEOS[v.no - 2];
+  const next = BILI_VIDEOS[v.no];
+  const h = HEXAGRAMS[v.no - 1];
+  const date = v.pub ? new Date(v.pub * 1000).toLocaleDateString("zh-CN") : "";
+  return `
+  <div class="page video-page vd-page">
+    <div class="vd-topbar reveal">
+      <a class="btn btn-ghost" href="#/videos">← 返回视频列表</a>
+      ${h ? `<a class="btn btn-ghost" href="#/hex/${v.no}">查看 ${esc(h.name)} 卦文字研习 →</a>` : ""}
     </div>
-  </a>`;
+    <div class="section-head reveal">
+      <h2>第${v.no}卦 <span class="text-gradient">${esc(v.name)}</span> · 研习</h2>
+      <p>${esc(v.title)}</p>
+    </div>
+    <div class="glass vd-player reveal">
+      <iframe src="https://player.bilibili.com/player.html?bvid=${v.bvid}&page=1&high_quality=1&danmaku=0&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" title="第${v.no}卦讲解视频"></iframe>
+    </div>
+    <div class="glass vd-meta reveal">
+      <div class="vm-info">
+        <h3>${esc(v.title)}</h3>
+        <p>时长 ${v.dur} · 播放 ${v.view}${date ? " · " + date : ""}</p>
+      </div>
+      <a class="btn btn-ghost" href="https://www.bilibili.com/video/${v.bvid}" target="_blank" rel="noopener">在 B 站打开 ↗</a>
+    </div>
+    ${tr ? renderTranscript(`第${v.no}卦 · ${v.name}`, tr.paras, tr.chars) : ""}
+    <div class="vd-nav reveal">
+      ${prev ? `<a class="btn btn-ghost" href="#/videos/${prev.no}">← 第${prev.no}卦 · ${esc(prev.name)}</a>` : "<span></span>"}
+      ${next ? `<a class="btn btn-ghost" href="#/videos/${next.no}">第${next.no}卦 · ${esc(next.name)} →</a>` : "<span></span>"}
+    </div>
+  </div>`;
+}
+
+/* 文稿渲染（易经 / 道德经共用） */
+function renderTranscript(label, paras, chars) {
+  return `
+  <div class="glass vd-transcript reveal">
+    <div class="vt-head">
+      <h3>📄 ${esc(label)} · 讲解文稿</h3>
+      <span class="vt-chars">约 ${chars} 字 · AI 字幕转写</span>
+    </div>
+    <div class="vt-body">
+      ${paras.map((p) => `<p>${esc(p)}</p>`).join("")}
+    </div>
+    <p class="vt-note">文稿由 B 站 AI 字幕自动转写整理，或有错字，供研习参考。</p>
+  </div>`;
+}
+
+/* ============================================================
+   白话道德经 · 视频研习（B 站同合集：8789124）
+   ============================================================ */
+const DDJ_SEASON_NAME = "合集 · 白话道德经";
+const DDJ_SEASON_URL = "https://space.bilibili.com/42484832/lists/8789124?type=season";
+
+function ddjOrdered() {
+  return [...DDJ_VIDEOS].sort((a, b) => a.no - b.no);
+}
+
+function renderDdjVideos() {
+  const ordered = ddjOrdered();
+  const withText = ordered.filter((v) => v.hasText).length;
+  const chBar = Array.from({ length: 81 }, (_, i) => i + 1)
+    .map((n) => `<button class="ddj-ch" data-ch="${n}">${n}</button>`).join("");
+  return `
+  <div class="page video-page">
+    <div class="section-head reveal">
+      <h2>白话道德经 <span class="text-gradient">· 视频研习</span></h2>
+      <p>同一位 UP 主的 B 站系列《${esc(DDJ_SEASON_NAME)}》，逐章用大白话讲透《道德经》八十一章。视频与文稿对照研习。</p>
+    </div>
+
+    <div class="glass video-meta reveal">
+      <div class="vm-info">
+        <h3>${esc(DDJ_SEASON_NAME)}</h3>
+        <p>已收录 ${ordered.length} 期 · 覆盖第 1–81 章（${withText} 期含讲解文稿）。</p>
+      </div>
+      <a class="btn btn-ghost" href="${DDJ_SEASON_URL}" target="_blank" rel="noopener">在 B 站打开合集 ↗</a>
+    </div>
+
+    <div class="ddj-chapters reveal" id="ddj-chapters" aria-label="章节快速跳转">
+      <span class="ddj-bar-label">章</span>
+      ${chBar}
+    </div>
+
+    <div class="video-grid">
+      ${ordered.map((v) => ddjCard(v)).join("")}
+    </div>
+  </div>`;
+}
+
+function ddjCard(v) {
+  const url = `https://www.bilibili.com/video/${v.bvid}`;
+  const date = v.pub ? new Date(v.pub * 1000).toLocaleDateString("zh-CN") : "";
+  const label = v.chapter ? `第${v.chapter}章` : "系列收官";
+  const tr = v.hasText ? DDJ_TRANSCRIPTS[v.no] : null;
+  return `
+  <div class="glass video-card ddj-card reveal" id="ddj-card-${v.no}">
+    <a class="vc-link" href="#/ddj/${v.no}" aria-label="进入${label}研习页">
+      <div class="vc-media">
+        <div class="vc-yao ddj-seal-wrap" aria-hidden="true"><span class="ddj-seal">道</span></div>
+        <img src="${v.pic}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'" />
+        <span class="vc-no">${label}</span>
+        <span class="vc-dur">${v.dur}</span>
+      </div>
+      <div class="vc-body">
+        <h4 class="vc-title">${esc(v.title)}</h4>
+        <div class="vc-meta">
+          <span class="vm-play">▶ ${v.view}</span>
+          ${date ? `<span>${date}</span>` : ""}
+        </div>
+      </div>
+    </a>
+    <div class="vc-foot">
+      ${tr ? `<span class="vc-wen">📄 ${tr.chars} 字文稿</span><a class="btn btn-mini" href="#/ddj/${v.no}">阅读文稿 →</a>`
+           : `<span class="vc-wen dim">文稿暂缺</span>`}
+    </div>
+  </div>`;
+}
+
+/* 道德经单章研习页 */
+function renderDdjDetail(no) {
+  const v = DDJ_VIDEOS.find((x) => x.no === Number(no));
+  if (!v) return renderDdjVideos();
+  const ordered = ddjOrdered();
+  const idx = ordered.findIndex((x) => x.no === v.no);
+  const prev = idx > 0 ? ordered[idx - 1] : null;
+  const next = idx < ordered.length - 1 ? ordered[idx + 1] : null;
+  const tr = v.hasText ? DDJ_TRANSCRIPTS[v.no] : null;
+  const label = v.chapter ? `第${v.chapter}章` : "系列收官";
+  const date = v.pub ? new Date(v.pub * 1000).toLocaleDateString("zh-CN") : "";
+  const prevLabel = prev ? (prev.chapter ? `第${prev.chapter}章` : "系列收官") : "";
+  const nextLabel = next ? (next.chapter ? `第${next.chapter}章` : "系列收官") : "";
+  return `
+  <div class="page video-page vd-page">
+    <div class="vd-topbar reveal">
+      <a class="btn btn-ghost" href="#/ddj">← 返回道德经列表</a>
+      <a class="btn btn-ghost" href="#/videos">白话讲易 · 易经 →</a>
+    </div>
+    <div class="section-head reveal">
+      <h2>道德经 <span class="text-gradient">${esc(label)}</span> · 研习</h2>
+      <p>${esc(v.title)}</p>
+    </div>
+    <div class="glass vd-player reveal">
+      <iframe src="https://player.bilibili.com/player.html?bvid=${v.bvid}&page=1&high_quality=1&danmaku=0&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" title="${label}讲解视频"></iframe>
+    </div>
+    <div class="glass vd-meta reveal">
+      <div class="vm-info">
+        <h3>${esc(v.title)}</h3>
+        <p>时长 ${v.dur} · 播放 ${v.view}${date ? " · " + date : ""}</p>
+      </div>
+      <a class="btn btn-ghost" href="https://www.bilibili.com/video/${v.bvid}" target="_blank" rel="noopener">在 B 站打开 ↗</a>
+    </div>
+    ${tr ? renderTranscript(label, tr.paras, tr.chars) : `
+    <div class="glass vd-missing reveal">
+      <p>该期视频暂无可用文稿（B 站 AI 字幕转写异常）。仍可点击上方视频直接观看讲解。</p>
+    </div>`}
+    <div class="vd-nav reveal">
+      ${prev ? `<a class="btn btn-ghost" href="#/ddj/${prev.no}">← ${esc(prevLabel)}</a>` : "<span></span>"}
+      ${next ? `<a class="btn btn-ghost" href="#/ddj/${next.no}">${esc(nextLabel)} →</a>` : "<span></span>"}
+    </div>
+  </div>`;
 }
 
 function bindVideos() {
-  // 封面加载失败时自动露出卦画（由 img onerror 内联处理），此处无需额外逻辑
+  // 研习页 iframe 由浏览器加载；封面加载失败由 img onerror 处理
+}
+
+function bindDdj() {
+  const bar = document.getElementById("ddj-chapters");
+  if (!bar) return;
+  bar.addEventListener("click", (e) => {
+    const btn = e.target.closest(".ddj-ch");
+    if (!btn) return;
+    const ch = Number(btn.dataset.ch);
+    let el = document.querySelector(`#ddj-card-${CSS.escape(String(ch))}`);
+    if (!el) {
+      // 章号 ≠ 期号时（81 章补期 / 收官）按章号找
+      const v = DDJ_VIDEOS.find((x) => x.chapter === ch);
+      if (v) el = document.getElementById("ddj-card-" + v.no);
+    }
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
 }
 
 /* ============================================================
@@ -1124,7 +1314,10 @@ function router() {
       if (gcat) scrollToGloss = gcat;
       break;
     case "videos":
-      html = renderVideos();
+      html = arg ? renderVideoDetail(parseInt(arg, 10) || 1) : renderVideos();
+      break;
+    case "ddj":
+      html = arg ? renderDdjDetail(parseInt(arg, 10) || 1) : renderDdjVideos();
       break;
     default:
       html = renderHome();
@@ -1139,6 +1332,7 @@ function router() {
   if (route === "hexagrams") bindHexagramList();
   if (route === "glossary") bindGlossaryNav();
   if (route === "videos") bindVideos();
+  if (route === "ddj") bindDdj();
 
   // 名词锚点滚动
   if (scrollToGloss) {
