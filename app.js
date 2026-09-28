@@ -1074,7 +1074,7 @@ function videoCard(v) {
   const tr = YI_TRANSCRIPTS[v.no];
   return `
   <div class="glass video-card reveal">
-    <a class="vc-link" href="#/videos/${v.no}" aria-label="进入第${v.no}卦研习页">
+    <a class="vc-link" href="${url}" target="_blank" rel="noopener" aria-label="在 B 站观看第${v.no}卦视频">
       <div class="vc-media">
         <div class="vc-yao" aria-hidden="true">${yao}</div>
         <img src="${v.pic}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'" />
@@ -1089,11 +1089,6 @@ function videoCard(v) {
         </div>
       </div>
     </a>
-    ${tr ? `
-    <div class="vc-foot">
-      <span class="vc-wen">📄 ${tr.chars} 字文稿</span>
-      <a class="btn btn-mini" href="#/videos/${v.no}">阅读文稿 →</a>
-    </div>` : ""}
   </div>`;
 }
 
@@ -1179,7 +1174,7 @@ function router() {
       if (gcat) scrollToGloss = gcat;
       break;
     case "videos":
-      html = arg ? renderVideoDetail(parseInt(arg, 10) || 1) : renderVideos();
+      html = renderVideos();
       break;
     default:
       html = renderHome();
