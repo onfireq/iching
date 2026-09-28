@@ -435,9 +435,9 @@ html[data-theme="light"] .gloss-nav a.active { color: #b23a24; }
 .gloss-content { display: grid; gap: 1.05rem; }
 .gloss-content > section { margin-bottom: .4rem; }
 .gloss-item { padding: 1rem 1.3rem; scroll-margin-top: 90px; }
-.gloss-item h3 { margin: 0 0 .25rem; font-size: 1.05rem; letter-spacing: .08em; }
+.gloss-item h3 { margin: 0 0 .5rem; font-size: 1.05rem; letter-spacing: .08em; }
 .gloss-item .g-pinyin { font-size: .76rem; color: var(--text-faint); letter-spacing: .12em; }
-.gloss-item p { margin: .4rem 0 0; color: var(--text-dim); font-size: .92rem; line-height: 1.9; }
+.gloss-item p { margin: .55rem 0 0; color: var(--text-dim); font-size: .92rem; line-height: 2; }
 .gloss-item .g-src { font-size: .8rem; color: var(--gold); margin-top: .3rem; }
 html[data-theme="light"] .gloss-item .g-src { color: #8a5a20; }
 
