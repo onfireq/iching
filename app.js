@@ -1134,7 +1134,7 @@ function renderVideoDetail(no) {
   </div>`;
 }
 
-/* 文稿渲染（易经 / 道德经共用） */
+/* 文稿渲染 */
 function renderTranscript(label, paras, chars) {
   return `
   <div class="glass vd-transcript reveal">
@@ -1147,141 +1147,6 @@ function renderTranscript(label, paras, chars) {
     </div>
     <p class="vt-note">文稿由 B 站 AI 字幕自动转写整理，或有错字，供研习参考。</p>
   </div>`;
-}
-
-/* ============================================================
-   白话道德经 · 视频研习（B 站同合集：8789124）
-   ============================================================ */
-const DDJ_SEASON_NAME = "合集 · 白话道德经";
-const DDJ_SEASON_URL = "https://space.bilibili.com/42484832/lists/8789124?type=season";
-
-function ddjOrdered() {
-  return [...DDJ_VIDEOS].sort((a, b) => a.no - b.no);
-}
-
-function renderDdjVideos() {
-  const ordered = ddjOrdered();
-  const withText = ordered.filter((v) => v.hasText).length;
-  const chBar = Array.from({ length: 81 }, (_, i) => i + 1)
-    .map((n) => `<button class="ddj-ch" data-ch="${n}">${n}</button>`).join("");
-  return `
-  <div class="page video-page">
-    <div class="section-head reveal">
-      <h2>白话道德经 <span class="text-gradient">· 视频研习</span></h2>
-      <p>同一位 UP 主的 B 站系列《${esc(DDJ_SEASON_NAME)}》，逐章用大白话讲透《道德经》八十一章。视频与文稿对照研习。</p>
-    </div>
-
-    <div class="glass video-meta reveal">
-      <div class="vm-info">
-        <h3>${esc(DDJ_SEASON_NAME)}</h3>
-        <p>已收录 ${ordered.length} 期 · 覆盖第 1–81 章（${withText} 期含讲解文稿）。</p>
-      </div>
-      <a class="btn btn-ghost" href="${DDJ_SEASON_URL}" target="_blank" rel="noopener">在 B 站打开合集 ↗</a>
-    </div>
-
-    <div class="ddj-chapters reveal" id="ddj-chapters" aria-label="章节快速跳转">
-      <span class="ddj-bar-label">章</span>
-      ${chBar}
-    </div>
-
-    <div class="video-grid">
-      ${ordered.map((v) => ddjCard(v)).join("")}
-    </div>
-  </div>`;
-}
-
-function ddjCard(v) {
-  const url = `https://www.bilibili.com/video/${v.bvid}`;
-  const date = v.pub ? new Date(v.pub * 1000).toLocaleDateString("zh-CN") : "";
-  const label = v.chapter ? `第${v.chapter}章` : "系列收官";
-  const tr = v.hasText ? DDJ_TRANSCRIPTS[v.no] : null;
-  return `
-  <div class="glass video-card ddj-card reveal" id="ddj-card-${v.no}">
-    <a class="vc-link" href="#/ddj/${v.no}" aria-label="进入${label}研习页">
-      <div class="vc-media">
-        <div class="vc-yao ddj-seal-wrap" aria-hidden="true"><span class="ddj-seal">道</span></div>
-        <img src="${v.pic}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'" />
-        <span class="vc-no">${label}</span>
-        <span class="vc-dur">${v.dur}</span>
-      </div>
-      <div class="vc-body">
-        <h4 class="vc-title">${esc(v.title)}</h4>
-        <div class="vc-meta">
-          <span class="vm-play">▶ ${v.view}</span>
-          ${date ? `<span>${date}</span>` : ""}
-        </div>
-      </div>
-    </a>
-    <div class="vc-foot">
-      ${tr ? `<span class="vc-wen">📄 ${tr.chars} 字文稿</span><a class="btn btn-mini" href="#/ddj/${v.no}">阅读文稿 →</a>`
-           : `<span class="vc-wen dim">文稿暂缺</span>`}
-    </div>
-  </div>`;
-}
-
-/* 道德经单章研习页 */
-function renderDdjDetail(no) {
-  const v = DDJ_VIDEOS.find((x) => x.no === Number(no));
-  if (!v) return renderDdjVideos();
-  const ordered = ddjOrdered();
-  const idx = ordered.findIndex((x) => x.no === v.no);
-  const prev = idx > 0 ? ordered[idx - 1] : null;
-  const next = idx < ordered.length - 1 ? ordered[idx + 1] : null;
-  const tr = v.hasText ? DDJ_TRANSCRIPTS[v.no] : null;
-  const label = v.chapter ? `第${v.chapter}章` : "系列收官";
-  const date = v.pub ? new Date(v.pub * 1000).toLocaleDateString("zh-CN") : "";
-  const prevLabel = prev ? (prev.chapter ? `第${prev.chapter}章` : "系列收官") : "";
-  const nextLabel = next ? (next.chapter ? `第${next.chapter}章` : "系列收官") : "";
-  return `
-  <div class="page video-page vd-page">
-    <div class="vd-topbar reveal">
-      <a class="btn btn-ghost" href="#/ddj">← 返回道德经列表</a>
-      <a class="btn btn-ghost" href="#/videos">白话讲易 · 易经 →</a>
-    </div>
-    <div class="section-head reveal">
-      <h2>道德经 <span class="text-gradient">${esc(label)}</span> · 研习</h2>
-      <p>${esc(v.title)}</p>
-    </div>
-    <div class="glass vd-player reveal">
-      <iframe src="https://player.bilibili.com/player.html?bvid=${v.bvid}&page=1&high_quality=1&danmaku=0&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" title="${label}讲解视频"></iframe>
-    </div>
-    <div class="glass vd-meta reveal">
-      <div class="vm-info">
-        <h3>${esc(v.title)}</h3>
-        <p>时长 ${v.dur} · 播放 ${v.view}${date ? " · " + date : ""}</p>
-      </div>
-      <a class="btn btn-ghost" href="https://www.bilibili.com/video/${v.bvid}" target="_blank" rel="noopener">在 B 站打开 ↗</a>
-    </div>
-    ${tr ? renderTranscript(label, tr.paras, tr.chars) : `
-    <div class="glass vd-missing reveal">
-      <p>该期视频暂无可用文稿（B 站 AI 字幕转写异常）。仍可点击上方视频直接观看讲解。</p>
-    </div>`}
-    <div class="vd-nav reveal">
-      ${prev ? `<a class="btn btn-ghost" href="#/ddj/${prev.no}">← ${esc(prevLabel)}</a>` : "<span></span>"}
-      ${next ? `<a class="btn btn-ghost" href="#/ddj/${next.no}">${esc(nextLabel)} →</a>` : "<span></span>"}
-    </div>
-  </div>`;
-}
-
-function bindVideos() {
-  // 研习页 iframe 由浏览器加载；封面加载失败由 img onerror 处理
-}
-
-function bindDdj() {
-  const bar = document.getElementById("ddj-chapters");
-  if (!bar) return;
-  bar.addEventListener("click", (e) => {
-    const btn = e.target.closest(".ddj-ch");
-    if (!btn) return;
-    const ch = Number(btn.dataset.ch);
-    let el = document.querySelector(`#ddj-card-${CSS.escape(String(ch))}`);
-    if (!el) {
-      // 章号 ≠ 期号时（81 章补期 / 收官）按章号找
-      const v = DDJ_VIDEOS.find((x) => x.chapter === ch);
-      if (v) el = document.getElementById("ddj-card-" + v.no);
-    }
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
-  });
 }
 
 /* ============================================================
@@ -1316,9 +1181,6 @@ function router() {
     case "videos":
       html = arg ? renderVideoDetail(parseInt(arg, 10) || 1) : renderVideos();
       break;
-    case "ddj":
-      html = arg ? renderDdjDetail(parseInt(arg, 10) || 1) : renderDdjVideos();
-      break;
     default:
       html = renderHome();
   }
@@ -1332,7 +1194,6 @@ function router() {
   if (route === "hexagrams") bindHexagramList();
   if (route === "glossary") bindGlossaryNav();
   if (route === "videos") bindVideos();
-  if (route === "ddj") bindDdj();
 
   // 名词锚点滚动
   if (scrollToGloss) {
