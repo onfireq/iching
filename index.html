@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>观易 · 易经研习</title>
+<meta name="description" content="观易 —— 一部用于学习、深入了解与洞察易经的现代研习工具：六十四卦全文研读、在线起卦解卦、入门知识与名词速查。" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23100f0d' stroke='%23c9a45c' stroke-width='2'/%3E%3Cpath d='M32 2 A30 30 0 0 1 32 62 A15 15 0 0 0 32 32 A15 15 0 0 1 32 2 Z' fill='%23c2543e'/%3E%3Ccircle cx='32' cy='14' r='4' fill='%23efe7d8'/%3E%3Ccircle cx='32' cy='50' r='4' fill='%23c2543e'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="style.css" />
+<script>
+  // 主题引导（避免闪烁）
+  try {
+    var t = localStorage.getItem("iching-theme");
+    document.documentElement.dataset.theme = t === "light" ? "light" : "dark";
+  } catch (e) { document.documentElement.dataset.theme = "dark"; }
+</script>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="#/home" class="nav-brand" data-route="home">
+      <svg class="nav-taiji" viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" stroke-width="2.5"/>
+        <path d="M32 2 A30 30 0 0 1 32 62 A15 15 0 0 0 32 32 A15 15 0 0 1 32 2 Z" fill="currentColor"/>
+        <circle cx="32" cy="14" r="4.2" fill="var(--taiji-dot-a)"/>
+        <circle cx="32" cy="50" r="4.2" fill="var(--taiji-dot-b)"/>
+      </svg>
+      <span class="brand-text">观易<span class="brand-sub">·易经研习</span></span>
+    </a>
+    <nav class="site-nav-menu" aria-label="主导航">
+      <a href="#/home" data-route="home">首页</a>
+      <a href="#/hexagrams" data-route="hexagrams">六十四卦</a>
+      <a href="#/divination" data-route="divination">起卦</a>
+      <a href="#/learn" data-route="learn">入门研习</a>
+      <a href="#/glossary" data-route="glossary">名词速查</a>
+      <a href="#/videos" data-route="videos">白话讲易</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="theme-toggle" data-theme-toggle title="切换明暗主题" aria-label="切换明暗主题">
+        <svg viewBox="0 0 24 24" class="icon-sun" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4.4"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg>
+        <svg viewBox="0 0 24 24" class="icon-moon" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="app" class="app" tabindex="-1"></main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p class="footer-motto">《易》与天地准，故能弥纶天地之道。</p>
+    <p class="footer-meta">
+      观易 · 易经研习 —— 文本依通行本（王弼注本）整理，供学习研究参考。
+      <span class="footer-note">善易者不占 · 借占习易，借易修行</span>
+    </p>
+  </div>
+</footer>
+
+<button class="back-to-top" data-backtop title="回到顶部" aria-label="回到顶部">↑</button>
+
+<script src="data.js?v=20260928"></script>
+<script src="bili.js?v=20260928"></script>
+<script src="app.js?v=20260928"></script>
+</body>
+</html>
