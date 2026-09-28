@@ -207,14 +207,17 @@ html[data-theme="light"] .kicker { color: #8a5a20; }
 .hero-actions { display: flex; gap: .8rem; flex-wrap: wrap; }
 .hero-note { margin-top: 1.6rem; font-size: .82rem; color: var(--text-faint); }
 .taiji-wrap {
-  position: relative; display: flex; align-items: center; justify-content: center;
+  display: flex; flex-direction: column; align-items: center; gap: .85rem; margin: 0; min-width: 0;
 }
-.taiji-big { width: min(300px, 72vw); height: auto; filter: drop-shadow(0 0 34px var(--hero-glow)); }
+.taiji-visual {
+  position: relative; display: grid; place-items: center; width: min(300px, 72vw); max-width: 100%;
+}
+.taiji-big { display: block; width: 100%; height: auto; filter: drop-shadow(0 0 34px var(--hero-glow)); }
 .taiji-big .spin { transform-origin: 50% 50%; animation: taiji-spin 30s linear infinite; }
 .taiji-big .ring { animation: taiji-ring 18s linear infinite; transform-origin: 50% 50%; }
 @keyframes taiji-ring { to { transform: rotate(-360deg); } }
 .taiji-glow { position: absolute; width: 70%; height: 70%; border-radius: 50%; background: radial-gradient(circle, var(--hero-glow), transparent 70%); }
-.taiji-caption { position: absolute; bottom: -0.6rem; left: 0; right: 0; text-align: center; font-size: .8rem; letter-spacing: .5em; color: var(--text-faint); }
+.taiji-caption { margin: 0; padding-inline-start: .25em; text-align: center; font-size: .85rem; line-height: 1.6; letter-spacing: .25em; color: var(--text-dim); }
 
 /* 快速入口 */
 .quick-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; margin: 1.6rem 0; }

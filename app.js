@@ -160,20 +160,22 @@ function renderHome() {
       </div>
       <p class="hero-note">易有三义：变易、不易、简易 —— 一阴一阳之谓道。</p>
     </div>
-    <div class="taiji-wrap">
-      <div class="taiji-glow"></div>
-      <svg class="taiji-big" viewBox="0 0 200 200" aria-hidden="true">
-        <circle class="ring" cx="100" cy="100" r="96" fill="none" stroke="var(--gold)" stroke-width="1.4" opacity=".6"/>
-        <circle cx="100" cy="100" r="92" fill="#12100c" stroke="var(--gold)" stroke-width="1.2" opacity=".85"/>
-        <g class="spin">
-          <path d="M100 8 A92 92 0 0 1 100 192 A46 46 0 0 0 100 100 A46 46 0 0 1 100 8 Z" fill="var(--cinnabar)"/>
-          <path d="M100 8 A92 92 0 0 0 100 192 A46 46 0 0 1 100 100 A46 46 0 0 0 100 8 Z" fill="var(--paper)"/>
-          <circle cx="100" cy="42" r="10" fill="var(--paper)"/>
-          <circle cx="100" cy="158" r="10" fill="var(--cinnabar)"/>
-        </g>
-      </svg>
-      <div class="taiji-caption">易 · 太极</div>
-    </div>
+    <figure class="taiji-wrap">
+      <div class="taiji-visual">
+        <div class="taiji-glow"></div>
+        <svg class="taiji-big" viewBox="0 0 200 200" aria-hidden="true">
+          <circle class="ring" cx="100" cy="100" r="96" fill="none" stroke="var(--gold)" stroke-width="1.4" opacity=".6"/>
+          <circle cx="100" cy="100" r="92" fill="#12100c" stroke="var(--gold)" stroke-width="1.2" opacity=".85"/>
+          <g class="spin">
+            <path d="M100 8 A92 92 0 0 1 100 192 A46 46 0 0 0 100 100 A46 46 0 0 1 100 8 Z" fill="var(--cinnabar)"/>
+            <path d="M100 8 A92 92 0 0 0 100 192 A46 46 0 0 1 100 100 A46 46 0 0 0 100 8 Z" fill="var(--paper)"/>
+            <circle cx="100" cy="42" r="10" fill="var(--paper)"/>
+            <circle cx="100" cy="158" r="10" fill="var(--cinnabar)"/>
+          </g>
+        </svg>
+      </div>
+      <figcaption class="taiji-caption">易 · 太极</figcaption>
+    </figure>
   </section>
 
   <section class="info-strip page">
