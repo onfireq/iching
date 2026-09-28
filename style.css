@@ -9,6 +9,7 @@
   --cinnabar-bright: #e0714f;
   --gold: #c9a45c;
   --gold-bright: #e0c282;
+  --link-color: var(--gold-bright);
   --jade: #7ba08c;
   --jade-bright: #9fc0ad;
   --paper: #f2ecdd;
@@ -43,6 +44,7 @@ html[data-theme="dark"] {
 
 html[data-theme="light"] {
   color-scheme: light;
+  --link-color: #96601f;
   --bg: radial-gradient(1200px 700px at 15% -5%, #faf3e3 0%, transparent 55%),
         radial-gradient(1000px 600px at 95% 10%, #f6e9d4 0%, transparent 50%),
         linear-gradient(180deg, #f7f2e6 0%, #f2ecdd 55%, #efe8d6 100%);
@@ -87,8 +89,7 @@ body, button, input, select, textarea {
 ::-webkit-scrollbar { width: 7px; height: 7px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--scroll-thumb); border-radius: 999px; }
-a { color: var(--gold-bright); text-decoration: none; }
-html[data-theme="light"] a { color: #96601f; }
+a { color: var(--link-color); text-decoration: none; }
 a:hover { text-decoration: none; }
 :where(a, button, input, select):focus-visible {
   outline: 2px solid var(--cinnabar-bright);
@@ -175,11 +176,12 @@ html[data-theme="light"] .kicker { color: #8a5a20; }
   font-size: .95rem; transition: all .18s ease; letter-spacing: .05em;
 }
 .btn:hover { background: var(--muted-hover); border-color: var(--gold); transform: translateY(-1px); }
-.btn-primary {
+.btn-primary,
+.btn-primary:hover {
   background: linear-gradient(135deg, var(--cinnabar), #a0402c);
-  color: #f6ead2; border: none;
+  color: #fff; border: none;
 }
-.btn-primary:hover { filter: brightness(1.1); }
+.btn-primary:hover { background: linear-gradient(135deg, #b64934, #943923); }
 .btn-ghost { background: transparent; }
 .btn[disabled] { opacity: .45; cursor: not-allowed; transform: none; }
 .tag {
