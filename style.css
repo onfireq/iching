@@ -432,7 +432,8 @@ html[data-theme="light"] .article .callout b { color: #8a5a20; }
 .gloss-nav a:hover { background: var(--muted-hover); color: var(--text); }
 .gloss-nav a.active { background: var(--muted-hover); color: var(--cinnabar-bright); font-weight: 700; }
 html[data-theme="light"] .gloss-nav a.active { color: #b23a24; }
-.gloss-content { display: grid; gap: .7rem; }
+.gloss-content { display: grid; gap: 1.05rem; }
+.gloss-content > section { margin-bottom: .4rem; }
 .gloss-item { padding: 1rem 1.3rem; scroll-margin-top: 90px; }
 .gloss-item h3 { margin: 0 0 .25rem; font-size: 1.05rem; letter-spacing: .08em; }
 .gloss-item .g-pinyin { font-size: .76rem; color: var(--text-faint); letter-spacing: .12em; }
